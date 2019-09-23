@@ -33,7 +33,7 @@ import javax.persistence.Table;
 		private Date movieReleaseDate;
 		@Column(name="movie_language")
 		private String language;
-		@ManyToMany(cascade = CascadeType.PERSIST)
+		@ManyToMany(cascade = CascadeType.MERGE)
 		@JoinTable(joinColumns = @JoinColumn(name = "movie_fk"), inverseJoinColumns = @JoinColumn(name = "theatre_fk"))
 		private List<Theatre> theatre;
 		@OneToMany(mappedBy = "movie")

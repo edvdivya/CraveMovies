@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import com.cg.movies.dto.Movie;
 
@@ -15,24 +16,15 @@ public class MovieDaoImpl implements MovieDao{
 	public static int flag=0;
 	EntityManagerFactory entityFactory = Persistence.createEntityManagerFactory("Movies");
 	
+	@Transactional
 	public Movie save(Movie movie) {
 		
 		EntityManager em = entityFactory.createEntityManager();
-		Query query = em.createQuery("FROM Movie");
-		
-		@SuppressWarnings("unchecked")
-		List<Movie> movieList=query.getResultList();
-		
-		if(movieList.isEmpty()) {
 			EntityTransaction tran=em.getTransaction();
 			tran.begin();
 			em.persist(movie);
 			tran.commit();
-			System.out.println("Movie has been added successfully");
 			return movie;
-		}
-		
-		return null;
 	}
 
 	public List<Movie> findAll() {
