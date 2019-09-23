@@ -42,7 +42,7 @@ public class MyApplication {
 					String userPass = scanner.next();
 					Admin validateAdminLogin = adminService.validateAdminLogin(userName, userPass);
 					if (validateAdminLogin.equals(null)) {
-						System.out.println("Exited from the System");
+						System.out.println("Not an Admin : Exited from the System");
 						exit(1);
 					} else {
 						System.out.println("Logged In : " + validateAdminLogin.getAdminName());
@@ -92,7 +92,16 @@ public class MyApplication {
 								System.out.println(theatrein.getTheatreId()+ " "+theatrein.getTheatreName());
 							}
 							Theatre theatreObj=new Theatre();
-							System.out.println("Enter The Theater Id to which you want to add movie to : ");
+							System.out.println("In how many theatres you want to add movie?");
+							int num=scanner.nextInt();
+							int theatreArr[] = new int[num];
+							System.out.println("Enter the Theatre Id's: ");
+							for(int i=0;i<num;i++) {
+								
+								theatreArr[i]=scanner.nextInt();
+								
+							}
+							System.out.println("Enter The Theater Ids to which you want to add movie to : ");
 							int theaterid = scanner.nextInt();
 							theatreObj.setTheatreId(theaterid);
 							System.out.println("Enter the Movie Details as asked: ");
@@ -160,7 +169,7 @@ public class MyApplication {
 							break;
 						}
 					}
-
+					break;
 				case 2:
 					exit(1);
 				}
@@ -311,8 +320,6 @@ public class MyApplication {
 
 				case 1:
 					Customer customer = new Customer();
-//					System.out.println("Enter userid");
-//					BigInteger userid = scanner.nextBigInteger();
 					System.out.println("Enter Username");
 					String customerName = scanner.next();
 					System.out.println("Enter the Password");
@@ -323,7 +330,6 @@ public class MyApplication {
 						System.out.println("Password Matched");
 						System.out.println("Enter your Phone number");
 						String contactNumber = scanner.next();
-//						customer.setCustomerId(userid);
 						customer.setCustomerName(customerName);
 						customer.setCustomerPassword(customerPass);
 						customer.setContactNumber(contactNumber);
