@@ -33,8 +33,7 @@ movie_director VARCHAR(30) NOT NULL,
 movie_length INT NOT NULL,
 movie_language VARCHAR(30) NOT NULL,
 movie_release_date date NOT NULL,
-theatre_id INT , FOREIGN KEY(theatre_id) references theatre(theatre_id),
-delete_flag INT default 0,
+delete_flag INT default 1,
 Check (delete_flag IN(0,1)) 
 );
 
@@ -43,7 +42,7 @@ Check (delete_flag IN(0,1))
 CREATE TABLE movie_show(
 show_id INT PRIMARY KEY AUTO_INCREMENT,
 show_date date NOT NULL,
-show_timings datetime NOT NULL,
+show_timings time NOT NULL,
 booked_seats INT,
 available_seats INT NOT NULL,
 movie_id INT, FOREIGN KEY(movie_id) REFERENCES movie(movie_id),
@@ -56,21 +55,22 @@ Check (delete_flag IN(0,1))
 
 CREATE TABLE booking(
 booking_id bigint PRIMARY KEY AUTO_INCREMENT,
-show_id INT, FOREIGN KEY(show_id) REFERENCES movie_show(show_id),
-user_id INT, FOREIGN KEY(user_id) REFERENCES customer(user_id),
 seats_booked INT NOT NULL,
 total_cost double,
 payment VARCHAR(10),
+show_id INT, FOREIGN KEY(show_id) REFERENCES movie_show(show_id),
+user_id BIGINT, FOREIGN KEY(user_id) REFERENCES customer(user_id),
+delete_flag INT default 0,
+Check (delete_flag IN(0,1)),
 CHECK(payment IN(Pending,Done,Failed))
 );
 
-customer_id INT, FOREIGN KEY(customer_id) REFERENCES customer(user_id),
+
 
 CREATE TABLE customer(
 user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
 username VARCHAR(15) NOT NULL,
 password VARCHAR(15) NOT NULL,
-email_address VARCHAR(50),
 phone_number VARCHAR(12) NOT NULL,
 delete_flag INT default 0,
 Check (delete_flag IN(0,1))

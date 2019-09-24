@@ -100,7 +100,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			List<Show> showsList = theatre.getShowsList();
 			List<String> timings = new ArrayList<String>();
 			showsList.forEach(show -> {
-				timings.add(show.getShowId()+" : "+show.getShow_timings()+" seats available : "+show.getAvailableSeats());
+				timings.add(show.getShowId()+" : "+show.getShow_date()+" : " +show.getShow_timings()+" seats available : "+show.getAvailableSeats());
 			});
 			return timings;
 		}

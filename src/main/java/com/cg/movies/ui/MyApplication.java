@@ -1,7 +1,7 @@
 package com.cg.movies.ui;
 
 import com.cg.movies.dto.*;
-
+import com.cg.movies.exception.UserException;
 import com.cg.movies.service.*;
 import java.math.BigInteger;
 import java.sql.Time;
@@ -46,11 +46,8 @@ public class MyApplication {
 					String userName = scanner.next();
 					System.out.println("Enter the Password: ");
 					String userPass = scanner.next();
-					Admin validateAdminLogin = adminService.validateAdminLogin(userName, userPass);
-					if (validateAdminLogin.equals(null)) {
-						System.out.println("Not an Admin : Exited from the System");
-						exit(1);
-					} else {
+					try {
+						Admin validateAdminLogin = adminService.validateAdminLogin(userName, userPass);
 						System.out.println("Logged In : " + validateAdminLogin.getAdminName());
 						System.out.println("Enter Your choice: ");
 						System.out.println("1. Add Theater");
@@ -176,7 +173,7 @@ public class MyApplication {
 								} else {
 									System.out.println("Enter the show timings");
 									Date show_timings = sdf1.parse(scanner.nextLine());
-//									LocalDateTime lt = LocalDateTime.parse(show_timings);
+//								LocalDateTime lt = LocalDateTime.parse(show_timings);
 									System.out.println("Enter number of booked seats");
 									Integer booked_seats = scanner.nextInt();
 									System.out.println("Enter number of available seats");
@@ -190,6 +187,7 @@ public class MyApplication {
 									try {
 										showService.save(show);
 										System.out.println("Show Added");
+										exit(1);
 									} catch (Exception exception) {
 										System.out.println(exception.getMessage());
 									}
@@ -219,7 +217,11 @@ public class MyApplication {
 							exit(1);
 							break;
 						}
+
+					} catch (UserException e) {
+						System.out.println(e.getMessage());
 					}
+
 					break;
 				case 2:
 					exit(1);
