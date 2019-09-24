@@ -2,7 +2,9 @@ package com.cg.movies.dao;
 
 import java.math.BigInteger;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -12,6 +14,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+
 
 import com.cg.movies.dto.Booking;
 import com.cg.movies.dto.Customer;
@@ -100,7 +103,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			List<Show> showsList = theatre.getShowsList();
 			List<String> timings = new ArrayList<String>();
 			showsList.forEach(show -> {
-				timings.add(show.getShowId()+" : "+show.getShow_timings()+" seats available : "+show.getAvailableSeats());
+				timings.add(show.getShowId()+" : "+show.getShow_date()+" : "+show.getShow_timings()+" seats available : "+show.getAvailableSeats());
 			});
 			return timings;
 		}
@@ -121,11 +124,10 @@ public class CustomerDaoImpl implements CustomerDao {
 
 	@Override
 	@Transactional
-	public Boolean addBooking(Booking booking) {
+	public Boolean addBooking(Booking booking) throws Exception{
 		EntityManager em=entityFactory.createEntityManager();
 		EntityTransaction tran=em.getTransaction();
 		tran.begin();
-		
 		em.persist(booking);
 		tran.commit();
 		return true;
@@ -175,6 +177,50 @@ public class CustomerDaoImpl implements CustomerDao {
 			return bookingsList.get(bookingsList.size()-1).getBookingId();
 		}
 		return null;
+	}
+
+	@Override
+	public Date getReleaseDate(Integer movieID) {
+		// TODO Auto-generated method stub
+		EntityManager em = entityFactory.createEntityManager();
+		Movie movie=em.find(Movie.class,movieID);
+		if(movie == null) {
+			System.out.println("Movie not found!!");
+			return null;
+		}
+		else {
+			return movie.getMovieReleaseDate();
+		}
+	}
+
+	@Override
+	public Integer getAvailableSeats(Integer showSelected) {
+		// TODO Auto-generated method stub
+		EntityManager em = entityFactory.createEntityManager();
+		Show show=em.find(Show.class,showSelected);
+		if(show == null) {
+			System.out.println("Show not found!!");
+			return null;
+		}
+		else {
+			return show.getAvailableSeats();
+		}
+		
+	}
+	
+	@Override
+	@Transactional
+	public Boolean updateSeats(Integer showSelected,Integer availableSeats, Integer bookedSeats) {
+		// TODO Auto-generated method stub
+
+		EntityManager em=entityFactory.createEntityManager();
+		  Show show = em.find(Show.class,showSelected);
+		  em.getTransaction().begin();
+		  show.setAvailableSeats(availableSeats-bookedSeats);
+//		  show.setBookedSeats(bookedSeats);
+		  em.getTransaction().commit();
+		
+		return true;
 	}
 
 }

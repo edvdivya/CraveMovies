@@ -128,8 +128,7 @@ public class AdminDaoImpl implements AdminDao {
 		List<Admin> adminList = query.getResultList();
 
 		if (adminList.isEmpty()) {
-			System.out.println("Admin Doesn't exist");
-			return null;
+			throw new UserException("Admin Doesn't exist");
 		}
 		return adminList.get(0);
 

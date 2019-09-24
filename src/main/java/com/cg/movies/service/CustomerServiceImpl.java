@@ -1,6 +1,7 @@
 package com.cg.movies.service;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import com.cg.movies.dao.*;
@@ -54,7 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Boolean addBooking(Booking booking) {
+	public Boolean addBooking(Booking booking) throws Exception {
 		// TODO Auto-generated method stub
 		if(Validate.validate_booking(booking)) {
 			return dao.addBooking(booking);
@@ -78,6 +79,25 @@ public class CustomerServiceImpl implements CustomerService {
 	public BigInteger getBookingId(BigInteger userId) {
 		// TODO Auto-generated method stub
 		return dao.getBookingId(userId);
+	}
+
+	@Override
+	public Date getReleaseDate(Integer movieId) {
+		// TODO Auto-generated method stub
+		return dao.getReleaseDate(movieId);
+	}
+
+	@Override
+	public Integer getAvailableSeats(Integer showSelected) {
+		// TODO Auto-generated method stub
+		return dao.getAvailableSeats(showSelected);
+	}
+
+	@Override
+	public Boolean updateSeats(Integer showSelected,Integer seatsAvailable,Integer bookedSeats) {
+		// TODO Auto-generated method stub
+		return dao.updateSeats(showSelected,seatsAvailable,bookedSeats);
+		
 	}
 
 }

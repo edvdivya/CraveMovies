@@ -1,6 +1,7 @@
 package com.cg.movies.dao;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import com.cg.movies.dto.Booking;
@@ -18,8 +19,11 @@ public interface CustomerDao {
 	public List<String> getTheatreByMovieId(Integer movieId);
 	public List<String> getShows(Integer theatreSelected);
 	public BigInteger getUserId(String userName);
-	public Boolean addBooking(Booking booking);
+	public Boolean addBooking(Booking booking) throws Exception;
 	public List<String> viewBookings(BigInteger userID);
 	public Boolean cancelBooking(BigInteger bookingid);
 	public BigInteger getBookingId(BigInteger userId);
+	public Date getReleaseDate(Integer movieId);
+	public Integer getAvailableSeats(Integer showSelected);
+	public Boolean updateSeats(Integer showSelected, Integer availableSeats, Integer bookedSeats);
 }

@@ -1,7 +1,7 @@
 package com.cg.movies.ui;
 
 import com.cg.movies.dto.*;
-
+import com.cg.movies.exception.UserException;
 import com.cg.movies.service.*;
 import java.math.BigInteger;
 import java.sql.Time;
@@ -46,11 +46,8 @@ public class MyApplication {
 					String userName = scanner.next();
 					System.out.println("Enter the Password: ");
 					String userPass = scanner.next();
-					Admin validateAdminLogin = adminService.validateAdminLogin(userName, userPass);
-					if (validateAdminLogin.equals(null)) {
-						System.out.println("Not an Admin : Exited from the System");
-						exit(1);
-					} else {
+					try {
+						Admin validateAdminLogin = adminService.validateAdminLogin(userName, userPass);
 						System.out.println("Logged In : " + validateAdminLogin.getAdminName());
 						System.out.println("Enter Your choice: ");
 						System.out.println("1. Add Theater");
@@ -97,15 +94,19 @@ public class MyApplication {
 
 								System.out.println(theatrein.getTheatreId() + " " + theatrein.getTheatreName());
 							}
-							Theatre theatreObj = new Theatre();
+							
 							System.out.println("In how many theatres you want to add movie?");
 							int num = scanner.nextInt();
-							List<Theatre> showcasedTheatres = new ArrayList<Theatre>();
+							List<Theatre> showcasedTheatres = new LinkedList<Theatre>();
 							System.out.println("Enter the Theatre Id's: ");
 							for (int i = 0; i < num; i++) {
-
+								Theatre theatreObj = new Theatre();
+//								int k=scanner.nextInt();
+								
 								theatreObj.setTheatreId(scanner.nextInt());
-								showcasedTheatres.add(theatreObj);
+								showcasedTheatres.add(i,theatreObj);
+								System.out.println("id entered is :"+theatreObj.getTheatreId());
+								System.out.println(showcasedTheatres.get(i));
 
 							}
 							System.out.println("Enter the Movie Details as asked: ");
@@ -137,6 +138,7 @@ public class MyApplication {
 								movie.setTheatre(showcasedTheatres);
 								movie.setFlag(0);
 								System.out.println("");
+								System.out.println(showcasedTheatres);
 								try {
 									movieService.save(movie);
 									System.out.println("Movie Added");
@@ -167,16 +169,18 @@ public class MyApplication {
 								System.out.println("Enter the theatre Id: ");
 								Integer theatreSelected = scanner.nextInt();
 								show_theatre.setTheatreId(theatreSelected);
+								Date releaseDate = customerService.getReleaseDate(movieId);
+								System.out.println("Release Date: "+releaseDate);
 								scanner.nextLine();
 								System.out.println("Enter Date :");
 								Date show_date = sdf.parse(scanner.nextLine());
-								if (show_date.before(todays_date)) {
-									System.out.println("Enter correct date for show to be successfully added");
-									exit(1);
+								if (show_date.before(todays_date) || show_date.before(releaseDate)) {
+									throw new UserException("Enter correct date for show to be successfully added");
+									
 								} else {
 									System.out.println("Enter the show timings");
 									Date show_timings = sdf1.parse(scanner.nextLine());
-//									LocalDateTime lt = LocalDateTime.parse(show_timings);
+//								LocalDateTime lt = LocalDateTime.parse(show_timings);
 									System.out.println("Enter number of booked seats");
 									Integer booked_seats = scanner.nextInt();
 									System.out.println("Enter number of available seats");
@@ -190,6 +194,7 @@ public class MyApplication {
 									try {
 										showService.save(show);
 										System.out.println("Show Added");
+										exit(1);
 									} catch (Exception exception) {
 										System.out.println(exception.getMessage());
 									}
@@ -218,13 +223,23 @@ public class MyApplication {
 						case 6:
 							exit(1);
 							break;
+						default:
+							System.out.println("OPtion not valid");
 						}
+
+					} catch (UserException e) {
+						System.out.println(e.getMessage());
 					}
+
 					break;
+					
 				case 2:
 					exit(1);
 				}
 
+				break;
+				default:
+				System.out.println("Option Not valid");
 				break;
 			case 2:
 				System.out.println("1. Login");
@@ -275,11 +290,15 @@ public class MyApplication {
 							}
 							System.out.println("Enter the showId : ");
 							Integer showSelected = scanner.nextInt();
+							Integer availableSeats = customerService.getAvailableSeats(showSelected);
 							Show show = new Show();
 							Customer customer = new Customer();
 							show.setShowId(showSelected);
 							System.out.println("Enter the seats you want");
 							Integer seatsBooked = scanner.nextInt();
+							if(seatsBooked > availableSeats) {
+								throw new UserException("Booking for maximum" + availableSeats +" seats is allowed");
+							}
 							System.out.println("Total Cost would be " + seatsBooked * 200 + " Rs.");
 							Integer total_cost = seatsBooked * 200;
 							String payment = "Done";
@@ -295,9 +314,11 @@ public class MyApplication {
 							if (bookingStatus == false) {
 								System.out.println("Booking could not be completed");
 							} else
-								System.out.println("Booking successfully done: ");
+								{System.out.println("Booking successfully done: ");
 							BigInteger bookingId = customerService.getBookingId(userId);
-							System.out.println("Booking Id : " + bookingId);
+							System.out.println("Booking Id : " + bookingId);}
+							
+							customerService.updateSeats(showSelected,availableSeats,seatsBooked);
 							break;
 						case 2:
 							BigInteger userID = customerService.getUserId(userName);
@@ -320,7 +341,9 @@ public class MyApplication {
 								System.out.println("Booking has been cancelled");
 							}
 							break;
-
+						default:
+							System.out.println("Option Not valid");
+							break;
 						}
 					} else {
 						System.out.println("Entered Username and password combination does not exist");
@@ -328,6 +351,7 @@ public class MyApplication {
 						exit(1);
 					}
 					break;
+					
 				case 2:
 					System.out.println("Movies: ");
 					List<Movie> movieList = customerService.getMovies();
@@ -354,6 +378,9 @@ public class MyApplication {
 					break;
 				case 3:
 					exit(1);
+					break;
+				default:
+					System.out.println("Option Not valid");
 					break;
 
 				}
@@ -420,6 +447,7 @@ public class MyApplication {
 					exit(1);
 				}
 				break;
+				
 			case 4:
 				exit(1);
 			}
