@@ -1,8 +1,7 @@
 package com.cg.movies.dao;
 
 import java.math.BigInteger;
-
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +24,8 @@ import com.cg.movies.exception.UserException;
 
 public class CustomerDaoImpl implements CustomerDao {
 
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss");
 	EntityManagerFactory entityFactory = Persistence.createEntityManagerFactory("Movies");
 	@Override
 	@Transactional
@@ -103,7 +104,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			List<Show> showsList = theatre.getShowsList();
 			List<String> timings = new ArrayList<String>();
 			showsList.forEach(show -> {
-				timings.add(show.getShowId()+" : "+show.getShow_date()+" : "+show.getShow_timings()+" seats available : "+show.getAvailableSeats());
+				timings.add(show.getShowId()+" : "+sdf.format(show.getShow_date())+" : "+sdf1.format(show.getShow_timings())+" seats available : "+show.getAvailableSeats());
 			});
 			return timings;
 		}

@@ -208,7 +208,7 @@ public class MyApplication {
 							System.out.println("******************LIST OF THEATRES****************");
 							List<Theatre> theatersList = theatreService.findAll();
 							for (Theatre theatreLoop : theatersList) {
-								System.out.println("##" + theatreLoop.getTheatreName());
+								System.out.println("---" + theatreLoop.getTheatreName());
 							}
 							System.out.println("****************************************");
 							break;
@@ -216,7 +216,7 @@ public class MyApplication {
 							System.out.println("********************LIST OF MOVIES********************");
 							List<Movie> moviesList = movieService.findAll();
 							for (Movie movieloop : moviesList) {
-								System.out.println("##" + movieloop.getMovieName());
+								System.out.println("---" + movieloop.getMovieName());
 							}
 							System.out.println("**************************************************");
 							break;
