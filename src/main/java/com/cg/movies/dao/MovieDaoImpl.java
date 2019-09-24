@@ -23,6 +23,7 @@ public class MovieDaoImpl implements MovieDao{
 			EntityTransaction tran=em.getTransaction();
 			tran.begin();
 			em.persist(movie);
+			movie.setFlag(0);
 			tran.commit();
 			return movie;
 	}

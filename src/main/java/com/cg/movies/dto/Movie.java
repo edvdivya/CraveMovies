@@ -33,6 +33,8 @@ import javax.persistence.Table;
 		private Date movieReleaseDate;
 		@Column(name="movie_language")
 		private String language;
+		@Column(name="delete_flag")
+		private Integer flag=0;
 		@ManyToMany(cascade = CascadeType.MERGE)
 		@JoinTable(joinColumns = @JoinColumn(name = "movie_fk"), inverseJoinColumns = @JoinColumn(name = "theatre_fk"))
 		private List<Theatre> theatre;
@@ -40,7 +42,7 @@ import javax.persistence.Table;
 		private List<Show> showsList;
 		
 		public Movie(Integer movieId, String movieName, String genre, String director, Integer movieLength,
-				Date movieReleaseDate, String language, List<Theatre> theatre, List<Show> showsList) {
+				Date movieReleaseDate, String language, List<Theatre> theatre, List<Show> showsList, Integer flag) {
 			super();
 			this.movieId = movieId;
 			this.movieName = movieName;
@@ -51,6 +53,7 @@ import javax.persistence.Table;
 			this.language = language;
 			this.theatre = theatre;
 			this.showsList = showsList;
+			this.flag=flag;
 		}
 		public Movie() {
 			// TODO Auto-generated constructor stub
@@ -108,6 +111,12 @@ import javax.persistence.Table;
 		}
 		public void setShowsList(List<Show> showsList) {
 			this.showsList = showsList;
+		}
+		public Integer getFlag() {
+			return flag;
+		}
+		public void setFlag(Integer flag) {
+			this.flag = flag;
 		}
 		
 		

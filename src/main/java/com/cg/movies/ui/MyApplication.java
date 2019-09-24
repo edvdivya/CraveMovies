@@ -135,6 +135,7 @@ public class MyApplication {
 								movie.setMovieLength(movieLength);
 								movie.setGenre(genre);
 								movie.setTheatre(showcasedTheatres);
+								movie.setFlag(0);
 								System.out.println("");
 								try {
 									movieService.save(movie);
@@ -199,16 +200,20 @@ public class MyApplication {
 
 							break;
 						case 4:
+							System.out.println("******************LIST OF THEATRES****************");
 							List<Theatre> theatersList = theatreService.findAll();
 							for (Theatre theatreLoop : theatersList) {
-								System.out.println(theatreLoop.getTheatreName());
+								System.out.println("##" + theatreLoop.getTheatreName());
 							}
+							System.out.println("****************************************");
 							break;
 						case 5:
+							System.out.println("********************LIST OF MOVIES********************");
 							List<Movie> moviesList = movieService.findAll();
 							for (Movie movieloop : moviesList) {
-								System.out.println(movieloop.getMovieName());
+								System.out.println("##" + movieloop.getMovieName());
 							}
+							System.out.println("**************************************************");
 							break;
 						case 6:
 							exit(1);
