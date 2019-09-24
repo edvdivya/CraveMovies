@@ -2,6 +2,7 @@ package com.cg.movies.dto;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Show {
 	@Column(name="show_date")
     private Date show_date;
 	@Column(name="show_timings")
-    private LocalTime show_timings;
+    private Date show_timings;
 	@Column(name="available_seats")
     private Integer availableSeats;
 	@Column(name="booked_seats")
@@ -45,7 +46,7 @@ public class Show {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Show(Integer showId, Date show_date, LocalTime show_timings, Integer availableSeats, Integer bookedSeats,
+	public Show(Integer showId, Date show_date, Date show_timings, Integer availableSeats, Integer bookedSeats,
 			Movie movie, Theatre theatre, List<Booking> bookings) {
 		super();
 		this.showId = showId;
@@ -74,12 +75,12 @@ public class Show {
 		this.show_date = show_date;
 	}
 
-	public LocalTime getShow_timings() {
+	public Date getShow_timings() {
 		return show_timings;
 	}
 
-	public void setShow_timings(LocalTime lt) {
-		this.show_timings = lt;
+	public void setShow_timings(Date show_timings2) {
+		this.show_timings = show_timings2;
 	}
 
 	public Integer getAvailableSeats() {

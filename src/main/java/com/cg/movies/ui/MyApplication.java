@@ -6,23 +6,22 @@ import com.cg.movies.service.*;
 import java.math.BigInteger;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-
 
 public class MyApplication {
 
 	public static void main(String[] args) throws Exception {
 
-		
 		TheatreService theatreService = new TheatreServiceImpl();
 		AdminService adminService = new AdminServiceImpl();
 		ShowService showService = new ShowServiceImpl();
 		MovieService movieService = new MovieServiceImpl();
 		CustomerService customerService = new CustomerServiceImpl();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Date todays_date=new Date();
+
+		Date todays_date = new Date();
 //		System.out.println(sdf.format(todays_date));
 		SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss");
 
@@ -93,21 +92,21 @@ public class MyApplication {
 							}
 							break;
 						case 2:
-							List<Theatre> theatreList= theatreService.findAll();
-							for(Theatre theatrein:theatreList) {
-								
-								System.out.println(theatrein.getTheatreId()+ " "+theatrein.getTheatreName());
+							List<Theatre> theatreList = theatreService.findAll();
+							for (Theatre theatrein : theatreList) {
+
+								System.out.println(theatrein.getTheatreId() + " " + theatrein.getTheatreName());
 							}
-							Theatre theatreObj=new Theatre();
+							Theatre theatreObj = new Theatre();
 							System.out.println("In how many theatres you want to add movie?");
-							int num=scanner.nextInt();
+							int num = scanner.nextInt();
 							List<Theatre> showcasedTheatres = new ArrayList<Theatre>();
 							System.out.println("Enter the Theatre Id's: ");
-							for(int i=0;i<num;i++) {
-								
+							for (int i = 0; i < num; i++) {
+
 								theatreObj.setTheatreId(scanner.nextInt());
 								showcasedTheatres.add(theatreObj);
-								
+
 							}
 							System.out.println("Enter the Movie Details as asked: ");
 							scanner.nextLine();
@@ -122,11 +121,10 @@ public class MyApplication {
 							scanner.nextLine();
 							System.out.println("Enter the movie release date"); // today or next
 							Date release_date = sdf.parse(scanner.nextLine());
-							if(release_date.before(todays_date)) {
+							if (release_date.before(todays_date)) {
 								System.out.println("Not a valid Release date");
 								exit(1);
-							}
-							else {
+							} else {
 								System.out.println("Enter the movie language");
 								String language = scanner.nextLine();
 								Movie movie = new Movie();
@@ -145,16 +143,16 @@ public class MyApplication {
 									System.out.println(exception.getMessage());
 								}
 							}
-							
+
 							break;
 						case 3:
 							Show show = new Show();
 							Movie movie = new Movie();
-							Theatre show_theatre=new Theatre();
-							List<Movie> movies= customerService.getMovies();
-							for(Movie moviein:movies) {
-								
-								System.out.println(moviein.getMovieId()+ " "+moviein.getMovieName());
+							Theatre show_theatre = new Theatre();
+							List<Movie> movies = customerService.getMovies();
+							for (Movie moviein : movies) {
+
+								System.out.println(moviein.getMovieId() + " " + moviein.getMovieName());
 							}
 							System.out.println("Enter the Movie Id to add Show : ");
 							Integer movieId = scanner.nextInt();
@@ -165,49 +163,50 @@ public class MyApplication {
 								theatresList.forEach(theater -> {
 									System.out.println(theater);
 								});
-							}
-							System.out.println("Enter the theatre Id: ");
-							Integer theatreSelected = scanner.nextInt();
-							show_theatre.setTheatreId(theatreSelected);
-							scanner.nextLine();
-							System.out.println("Enter Date :");
-							Date show_date = sdf.parse(scanner.nextLine());
-							if(show_date.before(todays_date)) {
-								System.out.println("Enter correct date for show to be successfully added");
-								exit(1);
-							}
-							else {
-								System.out.println("Enter the show timings");
-								String show_timings = scanner.next();
-								LocalTime lt=LocalTime.parse(show_timings);
-								System.out.println("Enter number of booked seats");
-								Integer booked_seats = scanner.nextInt();
-								System.out.println("Enter number of available seats");
-								Integer available_seats = scanner.nextInt();
-								show.setAvailableSeats(available_seats);
-								show.setBookedSeats(booked_seats);
-								show.setShow_date(show_date);
-								show.setShow_timings(lt);
-								show.setTheatre(show_theatre);
-								show.setMovie(movie);
-								try {
-									 showService.save(show);
-									System.out.println("Show Added");
-								} catch (Exception exception) {
-									System.out.println(exception.getMessage());
+								System.out.println("Enter the theatre Id: ");
+								Integer theatreSelected = scanner.nextInt();
+								show_theatre.setTheatreId(theatreSelected);
+								scanner.nextLine();
+								System.out.println("Enter Date :");
+								Date show_date = sdf.parse(scanner.nextLine());
+								if (show_date.before(todays_date)) {
+									System.out.println("Enter correct date for show to be successfully added");
+									exit(1);
+								} else {
+									System.out.println("Enter the show timings");
+									Date show_timings = sdf1.parse(scanner.nextLine());
+//									LocalDateTime lt = LocalDateTime.parse(show_timings);
+									System.out.println("Enter number of booked seats");
+									Integer booked_seats = scanner.nextInt();
+									System.out.println("Enter number of available seats");
+									Integer available_seats = scanner.nextInt();
+									show.setAvailableSeats(available_seats);
+									show.setBookedSeats(booked_seats);
+									show.setShow_date(show_date);
+									show.setShow_timings(show_timings);
+									show.setTheatre(show_theatre);
+									show.setMovie(movie);
+									try {
+										showService.save(show);
+										System.out.println("Show Added");
+									} catch (Exception exception) {
+										System.out.println(exception.getMessage());
+									}
 								}
+							} else {
+								System.out.println("No Theatres with ths movie");
 							}
+
 							break;
 						case 4:
-							List<Theatre> theatersList=theatreService.findAll();
-							for(Theatre theatreLoop:theatersList)
-							{
+							List<Theatre> theatersList = theatreService.findAll();
+							for (Theatre theatreLoop : theatersList) {
 								System.out.println(theatreLoop.getTheatreName());
 							}
 							break;
 						case 5:
-							List<Movie> moviesList=movieService.findAll();
-							for(Movie movieloop: moviesList) {
+							List<Movie> moviesList = movieService.findAll();
+							for (Movie movieloop : moviesList) {
 								System.out.println(movieloop.getMovieName());
 							}
 							break;
@@ -299,7 +298,7 @@ public class MyApplication {
 							BigInteger userID = customerService.getUserId(userName);
 							List<String> bookingsDone = customerService.viewBookings(userID);
 							if (bookingsDone != null) {
-								System.out.println(" "+bookingsDone);
+								System.out.println(" " + bookingsDone);
 							}
 
 							break;
@@ -307,12 +306,12 @@ public class MyApplication {
 							BigInteger user_id = customerService.getUserId(userName);
 							List<String> bookingList = customerService.viewBookings(user_id);
 							if (bookingList != null) {
-								System.out.println(" "+bookingList);
+								System.out.println(" " + bookingList);
 							}
 							System.out.println("Enter the booking id to cancel");
 							BigInteger booking_id = scanner.nextBigInteger();
 							Boolean cancelBooking = customerService.cancelBooking(booking_id);
-							if(cancelBooking==true) {
+							if (cancelBooking == true) {
 								System.out.println("Booking has been cancelled");
 							}
 							break;
