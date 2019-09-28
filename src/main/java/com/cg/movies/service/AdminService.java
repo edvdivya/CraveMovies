@@ -19,4 +19,5 @@ public interface AdminService {
 	public List<Movie> getMovies();
 	public List<String> getTheatreByMovieId(Integer movieId);
 	public Date getReleaseDate(Integer movieId);
+	public Boolean setShowStatus(Integer movieID);
 }

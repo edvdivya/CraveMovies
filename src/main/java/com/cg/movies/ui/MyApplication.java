@@ -55,7 +55,8 @@ public class MyApplication {
 						System.out.println("3. Add Movie Show");
 						System.out.println("4. Get Theatres");
 						System.out.println("5. Get Movies");
-						System.out.println("6. Quit");
+						System.out.println("6. Set Movie Status");
+						System.out.println("7. Quit");
 						System.out.println("Enter Function Number you want to perform: ");
 						int input = scanner.nextInt();
 						switch (input) {
@@ -102,9 +103,9 @@ public class MyApplication {
 							for (int i = 0; i < num; i++) {
 								Theatre theatreObj = new Theatre();
 //								int k=scanner.nextInt();
-								
+
 								theatreObj.setTheatreId(scanner.nextInt());
-								showcasedTheatres.add(i,theatreObj);
+								showcasedTheatres.add(i, theatreObj);
 							}
 							System.out.println("Enter the Movie Details: ");
 							scanner.nextLine();
@@ -134,7 +135,7 @@ public class MyApplication {
 								movie.setGenre(genre);
 								movie.setTheatre(showcasedTheatres);
 								movie.setFlag(0);
-								
+
 								System.out.println(showcasedTheatres);
 								try {
 									movieService.save(movie);
@@ -167,13 +168,13 @@ public class MyApplication {
 								Integer theatreSelected = scanner.nextInt();
 								show_theatre.setTheatreId(theatreSelected);
 								Date releaseDate = adminService.getReleaseDate(movieId);
-								System.out.println("Release Date: "+sdf.format(releaseDate));
+								System.out.println("Release Date: " + sdf.format(releaseDate));
 								scanner.nextLine();
 								System.out.println("Enter Date in yyyy-mm-dd format :");
 								Date show_date = sdf.parse(scanner.nextLine());
 								if (show_date.before(todays_date) || show_date.before(releaseDate)) {
 									throw new UserException("Enter correct date for show to be successfully added");
-									
+
 								} else {
 									System.out.println("Enter the show timings");
 									Date show_timings = sdf1.parse(scanner.nextLine());
@@ -217,6 +218,16 @@ public class MyApplication {
 							System.out.println("**************************************************");
 							break;
 						case 6:
+							System.out.println("Following are the movies: ");
+							List<Movie> movieList = movieService.findAll();
+							for (Movie movieloop : movieList) {
+								System.out.println("---" + movieloop.getMovieName() + " " + movieloop.getMovieId());
+							}
+							System.out.println("Enter the movie id you want to remove from theatres: ");
+							Integer movieID = scanner.nextInt();
+							adminService.setShowStatus(movieID);
+							break;
+						case 7:
 							exit(1);
 							break;
 						default:
@@ -228,7 +239,7 @@ public class MyApplication {
 					}
 
 					break;
-					
+
 				case 2:
 					exit(1);
 				default:
@@ -236,8 +247,7 @@ public class MyApplication {
 				}
 
 				break;
-				
-				
+
 			case 2:
 				System.out.println("1. Login");
 				System.out.println("2. View Movies");
@@ -284,37 +294,42 @@ public class MyApplication {
 								showsList.forEach(show -> {
 									System.out.println(show);
 								});
+								System.out.println("Enter the showId : ");
+								Integer showSelected = scanner.nextInt();
+								Integer availableSeats = customerService.getAvailableSeats(showSelected);
+								Show show = new Show();
+								Customer customer = new Customer();
+								show.setShowId(showSelected);
+								System.out.println("Enter the seats you want");
+								Integer seatsBooked = scanner.nextInt();
+								if (seatsBooked > availableSeats) {
+									throw new UserException(
+											"Booking for maximum" + availableSeats + " seats is allowed");
+								}
+								System.out.println("Total Cost would be " + seatsBooked * 200 + " Rs.");
+								Integer total_cost = seatsBooked * 200;
+								String payment = "Done";
+								booking.setPayment(payment);
+								booking.setTotalCost(total_cost);
+								booking.setSeatsBooked(seatsBooked);
+								booking.setShow(show);
+								booking.setFlag(0);
+								BigInteger userId = customerService.getUserId(userName);
+								customer.setCustomerId(userId);
+								booking.setCustomer(customer);
+								Boolean bookingStatus = customerService.addBooking(booking);
+								if (bookingStatus == false) {
+									System.out.println("SorryBooking could not be completed");
+								} else {
+									System.out.println("Booking successfully done: ");
+									BigInteger bookingId = customerService.getBookingId(userId);
+									System.out.println("Booking Id : " + bookingId);
+								}
+								customerService.updateSeats(showSelected, availableSeats, seatsBooked);
+							} else {
+								System.out.println("No shows available!");
 							}
-							System.out.println("Enter the showId : ");
-							Integer showSelected = scanner.nextInt();
-							Integer availableSeats = customerService.getAvailableSeats(showSelected);
-							Show show = new Show();
-							Customer customer = new Customer();
-							show.setShowId(showSelected);
-							System.out.println("Enter the seats you want");
-							Integer seatsBooked = scanner.nextInt();
-							if(seatsBooked > availableSeats) {
-								throw new UserException("Booking for maximum" + availableSeats +" seats is allowed");
-							}
-							System.out.println("Total Cost would be " + seatsBooked * 200 + " Rs.");
-							Integer total_cost = seatsBooked * 200;
-							String payment = "Done";
-							booking.setPayment(payment);
-							booking.setTotalCost(total_cost);
-							booking.setSeatsBooked(seatsBooked);
-							booking.setShow(show);
-							booking.setFlag(0);
-							BigInteger userId = customerService.getUserId(userName);
-							customer.setCustomerId(userId);
-							booking.setCustomer(customer);
-							Boolean bookingStatus = customerService.addBooking(booking);
-							if (bookingStatus == false) {
-								System.out.println("Sorry! Booking could not be completed");
-							} else
-								{System.out.println("Booking successfully done: ");
-							BigInteger bookingId = customerService.getBookingId(userId);
-							System.out.println("Booking Id : " + bookingId);}
-							customerService.updateSeats(showSelected,availableSeats,seatsBooked);
+
 							break;
 						case 2:
 							BigInteger userID = customerService.getUserId(userName);
@@ -347,7 +362,7 @@ public class MyApplication {
 						exit(1);
 					}
 					break;
-					
+
 				case 2:
 					System.out.println("Movies: ");
 					List<Movie> movieList = customerService.getMovies();
@@ -406,7 +421,7 @@ public class MyApplication {
 						customer.setContactNumber(contactNumber);
 						try {
 							customerService.addCustomer(customer);
-							System.out.println("Your Username: "+customer.getCustomerName());
+							System.out.println("Your Username: " + customer.getCustomerName());
 							System.out.println("You've been Succesfully Registered");
 						} catch (Exception e) {
 							System.out.println(e.getMessage());
@@ -448,15 +463,13 @@ public class MyApplication {
 					System.out.println("Option not valid");
 				}
 				break;
-				
-				
+
 			case 4:
 				exit(1);
 			default:
 				System.out.println("Option Not valid");
-			
+
 			}
-			
 
 		}
 

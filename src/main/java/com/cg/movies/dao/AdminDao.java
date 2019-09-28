@@ -18,5 +18,6 @@ public interface AdminDao {
 	public Admin remove(Integer adminId);
 	public List<Movie> getMovies();
 	public List<String> getTheatreByMovieId(Integer movieId);
-	Date getReleaseDate(Integer movieID); 
+	Date getReleaseDate(Integer movieID);
+	public Boolean setShowStatus(Integer movieID); 
 }

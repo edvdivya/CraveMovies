@@ -174,4 +174,18 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
+	@Override
+	public Boolean setShowStatus(Integer movieID) {
+		// TODO Auto-generated method stub
+		EntityManager em = entityFactory.createEntityManager();
+		Movie movie = em.find(Movie.class,movieID);
+		em.getTransaction().begin();
+		movie.setShowStatus(1);
+
+		em.getTransaction().commit();
+
+	return true;
+		
+	}
+
 }

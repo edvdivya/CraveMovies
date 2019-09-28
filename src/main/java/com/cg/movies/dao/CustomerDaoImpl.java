@@ -70,10 +70,8 @@ public class CustomerDaoImpl implements CustomerDao {
 
 		// TODO Auto-generated method stub
 		EntityManager em = entityFactory.createEntityManager();
-//		List<Employee> empList=new ArrayList<Employee>();
-//		empList.add(em.find(Employee.class, 1001));
-		Query query = em.createQuery("From Movie where movieReleaseDate >= :first");
-		query.setParameter("first", today);
+		Query query = em.createQuery("From Movie where showStatus = :first");
+		query.setParameter("first",0);
 		List<Movie> movieList = query.getResultList();
 		return movieList;
 

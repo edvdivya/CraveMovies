@@ -66,5 +66,12 @@ public class AdminServiceImpl implements AdminService {
 		return dao.getReleaseDate(movieId);
 	}
 
+	@Override
+	public Boolean setShowStatus(Integer movieID) {
+		// TODO Auto-generated method stub
+		return dao.setShowStatus(movieID);
+		
+	}
+
 
 }
