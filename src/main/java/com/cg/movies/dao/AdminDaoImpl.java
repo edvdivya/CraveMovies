@@ -134,4 +134,15 @@ public class AdminDaoImpl implements AdminDao {
 
 	}
 
+	@Override
+	public List<Movie> getMovies() {
+		// TODO Auto-generated method stub
+		EntityManager em=entityFactory.createEntityManager();
+//		List<Employee> empList=new ArrayList<Employee>();
+//		empList.add(em.find(Employee.class, 1001));
+		Query query = em.createQuery("From Movie");
+		List<Movie> movieList=query.getResultList();
+		return movieList;
+	}
+
 }

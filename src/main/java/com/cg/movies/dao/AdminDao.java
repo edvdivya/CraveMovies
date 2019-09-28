@@ -3,6 +3,7 @@ package com.cg.movies.dao;
 import java.util.List;
 
 import com.cg.movies.dto.Admin;
+import com.cg.movies.dto.Movie;
 import com.cg.movies.exception.UserException;
 
 public interface AdminDao {
@@ -13,5 +14,6 @@ public interface AdminDao {
 	public Admin find(Integer adminId);
 	public List<Admin> findAll();
 	public boolean addMovieToTheatre(Integer movieId, Integer showId, Integer theatreId);
-	public Admin remove(Integer adminId); 
+	public Admin remove(Integer adminId);
+	public List<Movie> getMovies(); 
 }

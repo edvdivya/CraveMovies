@@ -109,7 +109,7 @@ public class MyApplication {
 								System.out.println(showcasedTheatres.get(i));
 
 							}
-							System.out.println("Enter the Movie Details as asked: ");
+							System.out.println("Enter the Movie Details: ");
 							scanner.nextLine();
 							System.out.println("Enter the movie name");
 							String name = scanner.nextLine();
@@ -152,7 +152,7 @@ public class MyApplication {
 							Show show = new Show();
 							Movie movie = new Movie();
 							Theatre show_theatre = new Theatre();
-							List<Movie> movies = customerService.getMovies();
+							List<Movie> movies = adminService.getMovies();
 							for (Movie moviein : movies) {
 
 								System.out.println(moviein.getMovieId() + " " + moviein.getMovieName());
@@ -310,7 +310,9 @@ public class MyApplication {
 							BigInteger userId = customerService.getUserId(userName);
 							customer.setCustomerId(userId);
 							booking.setCustomer(customer);
+							System.out.println("Booking onject"+booking);
 							Boolean bookingStatus = customerService.addBooking(booking);
+							System.out.println("booking sttau"+bookingStatus);
 							if (bookingStatus == false) {
 								System.out.println("Booking could not be completed");
 							} else

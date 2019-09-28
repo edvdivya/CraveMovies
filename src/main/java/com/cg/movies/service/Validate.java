@@ -69,9 +69,9 @@ public class Validate {
 			return true;
 		}
 		public static boolean validate_booking(Booking booking) {
-			if(booking.getSeatsBooked()>3) {
-				return false;
-			}
+//			if(booking.getSeatsBooked()>) {
+//				return false;
+//			}
 			return true;
 		}
 		public void validateDate(LocalDate date) throws DateException {

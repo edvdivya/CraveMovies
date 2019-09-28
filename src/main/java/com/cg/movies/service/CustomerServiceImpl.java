@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<String> getShows(Integer movieId, Integer theatreSelected) {
 		// TODO Auto-generated method stub
-		return dao.getShows(theatreSelected);
+		return dao.getShows(movieId,theatreSelected);
 	}
 
 	@Override

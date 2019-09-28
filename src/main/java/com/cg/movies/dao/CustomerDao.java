@@ -17,7 +17,7 @@ public interface CustomerDao {
 	public Boolean validateCustomer(String userName, String userPass) throws UserException;
 	public List<Movie> getMovies();
 	public List<String> getTheatreByMovieId(Integer movieId);
-	public List<String> getShows(Integer theatreSelected);
+	public List<String> getShows(Integer theatreSelected, Integer theatreSelected2);
 	public BigInteger getUserId(String userName);
 	public Boolean addBooking(Booking booking) throws Exception;
 	public List<String> viewBookings(BigInteger userID);

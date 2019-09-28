@@ -5,6 +5,7 @@ import java.util.List;
 import com.cg.movies.dao.AdminDao;
 import com.cg.movies.dao.AdminDaoImpl;
 import com.cg.movies.dto.Admin;
+import com.cg.movies.dto.Movie;
 import com.cg.movies.exception.UserException;
 
 
@@ -50,6 +51,12 @@ public class AdminServiceImpl implements AdminService {
 	
 	public Admin validateAdminLogin(String userName, String userPass) throws UserException {
 		return dao.validateAdminLogin(userName, userPass);
+	}
+
+	@Override
+	public List<Movie> getMovies() {
+		// TODO Auto-generated method stub
+		return dao.getMovies();
 	}
 
 
