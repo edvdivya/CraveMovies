@@ -137,7 +137,7 @@ public class MyApplication {
 								movie.setGenre(genre);
 								movie.setTheatre(showcasedTheatres);
 								movie.setFlag(0);
-								System.out.println("");
+								
 								System.out.println(showcasedTheatres);
 								try {
 									movieService.save(movie);
@@ -224,7 +224,7 @@ public class MyApplication {
 							exit(1);
 							break;
 						default:
-							System.out.println("OPtion not valid");
+							System.out.println("Option not valid");
 						}
 
 					} catch (UserException e) {
