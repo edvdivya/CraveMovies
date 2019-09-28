@@ -10,7 +10,6 @@ public interface ShowDao {
 	public List<Show> findAll();
 	public Show find(Integer showId);
 	public Show remove(Integer showId);
-	
 	public Show addMovieToShow(Integer movieId);
 	
 }

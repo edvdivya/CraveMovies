@@ -23,7 +23,6 @@ public class ShowDaoImpl implements ShowDao {
 		tran.begin();
 		em.persist(show);
 		tran.commit();
-		System.out.println("Show has been added successfully");
 		return show;
 
 	}

@@ -91,7 +91,7 @@ public class TestJunit {
 		customer.setCustomerPassword("12312312");
 		show = new Show();
 		show.setAvailableSeats(100);
-		show.setBookedSeats(5);
+		show.setBlockedSeats(5);
 		show.setBookings(null);
 		show.setMovie(movie);
 		show.setShow_date(null);

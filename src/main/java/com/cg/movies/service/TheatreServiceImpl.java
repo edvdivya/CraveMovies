@@ -11,26 +11,22 @@ public class TheatreServiceImpl implements TheatreService {
 	TheatreDao dao = new TheatreDaoImpl();
 	
 	@Override
-	public Theatre save(Theatre theatre) {
-		
+	public Theatre save(Theatre theatre) {	
 		return dao.save(theatre);
 	}
 
 	@Override
 	public List<Theatre> findAll() {
-		
 		return dao.findAll();
 	}
 
 	@Override
 	public Theatre find(Integer theatreId) {
-		
 		return dao.find(theatreId);
 	}
 
 	@Override
 	public Theatre remove(Integer theatreId) {
-		
 		return dao.remove(theatreId);
 	}
 

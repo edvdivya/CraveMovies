@@ -94,7 +94,7 @@ public class MyApplication {
 
 								System.out.println(theatrein.getTheatreId() + " " + theatrein.getTheatreName());
 							}
-							
+							System.out.println("List of theatres:");
 							System.out.println("In how many theatres you want to add movie?");
 							int num = scanner.nextInt();
 							List<Theatre> showcasedTheatres = new LinkedList<Theatre>();
@@ -105,9 +105,6 @@ public class MyApplication {
 								
 								theatreObj.setTheatreId(scanner.nextInt());
 								showcasedTheatres.add(i,theatreObj);
-								System.out.println("id entered is :"+theatreObj.getTheatreId());
-								System.out.println(showcasedTheatres.get(i));
-
 							}
 							System.out.println("Enter the Movie Details: ");
 							scanner.nextLine();
@@ -120,7 +117,7 @@ public class MyApplication {
 							System.out.println("Enter the movie length ");
 							Integer movieLength = scanner.nextInt();
 							scanner.nextLine();
-							System.out.println("Enter the movie release date"); // today or next
+							System.out.println("Enter the movie release date in yyyy-mm-dd format"); // today or next
 							Date release_date = sdf.parse(scanner.nextLine());
 							if (release_date.before(todays_date)) {
 								System.out.println("Not a valid Release date");
@@ -161,7 +158,7 @@ public class MyApplication {
 							Integer movieId = scanner.nextInt();
 							movie.setMovieId(movieId);
 							System.out.println("Theatres with this movie: ");
-							List<String> theatresList = customerService.getTheatreByMovieId(movieId);
+							List<String> theatresList = adminService.getTheatreByMovieId(movieId);
 							if (theatresList != null) {
 								theatresList.forEach(theater -> {
 									System.out.println(theater);
@@ -169,10 +166,10 @@ public class MyApplication {
 								System.out.println("Enter the theatre Id: ");
 								Integer theatreSelected = scanner.nextInt();
 								show_theatre.setTheatreId(theatreSelected);
-								Date releaseDate = customerService.getReleaseDate(movieId);
-								System.out.println("Release Date: "+releaseDate);
+								Date releaseDate = adminService.getReleaseDate(movieId);
+								System.out.println("Release Date: "+sdf.format(releaseDate));
 								scanner.nextLine();
-								System.out.println("Enter Date :");
+								System.out.println("Enter Date in yyyy-mm-dd format :");
 								Date show_date = sdf.parse(scanner.nextLine());
 								if (show_date.before(todays_date) || show_date.before(releaseDate)) {
 									throw new UserException("Enter correct date for show to be successfully added");
@@ -180,13 +177,12 @@ public class MyApplication {
 								} else {
 									System.out.println("Enter the show timings");
 									Date show_timings = sdf1.parse(scanner.nextLine());
-//								LocalDateTime lt = LocalDateTime.parse(show_timings);
-									System.out.println("Enter number of booked seats");
-									Integer booked_seats = scanner.nextInt();
+									System.out.println("Enter number of blocked seats");
+									Integer blocked_seats = scanner.nextInt();
 									System.out.println("Enter number of available seats");
 									Integer available_seats = scanner.nextInt();
 									show.setAvailableSeats(available_seats);
-									show.setBookedSeats(booked_seats);
+									show.setBlockedSeats(blocked_seats);
 									show.setShow_date(show_date);
 									show.setShow_timings(show_timings);
 									show.setTheatre(show_theatre);
@@ -235,12 +231,13 @@ public class MyApplication {
 					
 				case 2:
 					exit(1);
+				default:
+					System.out.println("Option Not valid");
 				}
 
 				break;
-				default:
-				System.out.println("Option Not valid");
-				break;
+				
+				
 			case 2:
 				System.out.println("1. Login");
 				System.out.println("2. View Movies");
@@ -310,16 +307,13 @@ public class MyApplication {
 							BigInteger userId = customerService.getUserId(userName);
 							customer.setCustomerId(userId);
 							booking.setCustomer(customer);
-							System.out.println("Booking onject"+booking);
 							Boolean bookingStatus = customerService.addBooking(booking);
-							System.out.println("booking sttau"+bookingStatus);
 							if (bookingStatus == false) {
 								System.out.println("Booking could not be completed");
 							} else
 								{System.out.println("Booking successfully done: ");
 							BigInteger bookingId = customerService.getBookingId(userId);
 							System.out.println("Booking Id : " + bookingId);}
-							
 							customerService.updateSeats(showSelected,availableSeats,seatsBooked);
 							break;
 						case 2:
@@ -411,7 +405,9 @@ public class MyApplication {
 						customer.setCustomerPassword(customerPass);
 						customer.setContactNumber(contactNumber);
 						try {
-							System.out.println(customerService.addCustomer(customer));
+							customerService.addCustomer(customer);
+							System.out.println("Your Username: "+customer.getCustomerName());
+							System.out.println("You've been Succesfully Registered");
 						} catch (Exception e) {
 							System.out.println(e.getMessage());
 						}
@@ -427,7 +423,7 @@ public class MyApplication {
 					for (Movie movie : movieList) {
 						System.out.println("" + movie.getMovieId() + " : " + movie.getMovieName());
 					}
-					System.out.println("Enter the Movie Id you want to book show for");
+					System.out.println("Enter the Movie Id :");
 					Integer movieId = scanner.nextInt();
 					System.out.println("Theatres with this movie: ");
 					List<String> theatresList = customerService.getTheatreByMovieId(movieId);
@@ -447,12 +443,20 @@ public class MyApplication {
 					break;
 				case 3:
 					exit(1);
+					break;
+				default:
+					System.out.println("Option not valid");
 				}
 				break;
 				
+				
 			case 4:
 				exit(1);
+			default:
+				System.out.println("Option Not valid");
+			
 			}
+			
 
 		}
 

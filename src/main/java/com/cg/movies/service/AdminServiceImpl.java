@@ -1,5 +1,6 @@
 package com.cg.movies.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cg.movies.dao.AdminDao;
@@ -15,37 +16,31 @@ public class AdminServiceImpl implements AdminService {
 	
 	@Override
 	public boolean addShowToTheatre(Integer showId, Integer theatreId) {
-		
 		return dao.addShowToTheatre(showId, theatreId);
 	}
 
 	@Override
 	public boolean addMovieToTheatre(Integer movieId, Integer showId, Integer theatreId) {
-		
 		return dao.addMovieToTheatre(movieId, showId, theatreId);
 	}
 
 	@Override
 	public Admin save(Admin admin) {
-		
 		return dao.save(admin);
 	}
 
 	@Override
 	public List<Admin> findAll() {
-		
 		return dao.findAll();
 	}
 
 	@Override
 	public Admin find(Integer adminId) {
-		
 		return dao.find(adminId);
 	}
 
 	@Override
 	public Admin remove(Integer adminId) {
-		
 		return dao.remove(adminId);
 	}
 	
@@ -57,6 +52,18 @@ public class AdminServiceImpl implements AdminService {
 	public List<Movie> getMovies() {
 		// TODO Auto-generated method stub
 		return dao.getMovies();
+	}
+
+	@Override
+	public List<String> getTheatreByMovieId(Integer movieId) {
+		// TODO Auto-generated method stub
+		return dao.getTheatreByMovieId(movieId);
+	}
+
+	@Override
+	public Date getReleaseDate(Integer movieId) {
+		// TODO Auto-generated method stub
+		return dao.getReleaseDate(movieId);
 	}
 
 

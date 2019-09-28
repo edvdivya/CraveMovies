@@ -1,5 +1,6 @@
 package com.cg.movies.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cg.movies.dto.Admin;
@@ -15,5 +16,7 @@ public interface AdminDao {
 	public List<Admin> findAll();
 	public boolean addMovieToTheatre(Integer movieId, Integer showId, Integer theatreId);
 	public Admin remove(Integer adminId);
-	public List<Movie> getMovies(); 
+	public List<Movie> getMovies();
+	public List<String> getTheatreByMovieId(Integer movieId);
+	Date getReleaseDate(Integer movieID); 
 }

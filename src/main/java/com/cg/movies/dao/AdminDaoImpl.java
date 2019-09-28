@@ -1,5 +1,7 @@
 package com.cg.movies.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -138,11 +140,38 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Movie> getMovies() {
 		// TODO Auto-generated method stub
 		EntityManager em=entityFactory.createEntityManager();
-//		List<Employee> empList=new ArrayList<Employee>();
-//		empList.add(em.find(Employee.class, 1001));
 		Query query = em.createQuery("From Movie");
 		List<Movie> movieList=query.getResultList();
 		return movieList;
+	}
+	@Override
+	public List<String> getTheatreByMovieId(Integer movieId) {
+		// TODO Auto-generated method stub
+		EntityManager em = entityFactory.createEntityManager();
+		Movie movie = em.find(Movie.class, movieId);
+		if (movie != null) {
+			List<Theatre> theatresList = movie.getTheatre();
+			List<String> nameIdList = new ArrayList<String>();
+			theatresList.forEach(theatre -> {
+				nameIdList.add(theatre.getTheatreId() + " " + theatre.getTheatreName());
+			});
+			return nameIdList;
+		}
+
+		return null;
+
+	}
+	@Override
+	public Date getReleaseDate(Integer movieID) {
+		// TODO Auto-generated method stub
+		EntityManager em = entityFactory.createEntityManager();
+		Movie movie = em.find(Movie.class, movieID);
+		if (movie == null) {
+			System.out.println("Movie not found!!");
+			return null;
+		} else {
+			return movie.getMovieReleaseDate();
+		}
 	}
 
 }

@@ -29,8 +29,8 @@ public class Show {
     private Date show_timings;
 	@Column(name="available_seats")
     private Integer availableSeats;
-	@Column(name="booked_seats")
-    private Integer bookedSeats;
+	@Column(name="blocked_seats")
+    private Integer blockedSeats;
 	@ManyToOne
 	@JoinColumn(name = "movie_id")
     private Movie movie;
@@ -46,83 +46,102 @@ public class Show {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Show(Integer showId, Date show_date, Date show_timings, Integer availableSeats, Integer bookedSeats,
+
+	public Show(Integer showId, Date show_date, Date show_timings, Integer availableSeats, Integer blockedSeats,
 			Movie movie, Theatre theatre, List<Booking> bookings) {
 		super();
 		this.showId = showId;
 		this.show_date = show_date;
 		this.show_timings = show_timings;
 		this.availableSeats = availableSeats;
-		this.bookedSeats = bookedSeats;
+		this.blockedSeats = blockedSeats;
 		this.movie = movie;
 		this.theatre = theatre;
 		this.bookings = bookings;
 	}
+
 
 	public Integer getShowId() {
 		return showId;
 	}
 
+
 	public void setShowId(Integer showId) {
 		this.showId = showId;
 	}
+
 
 	public Date getShow_date() {
 		return show_date;
 	}
 
+
 	public void setShow_date(Date show_date) {
 		this.show_date = show_date;
 	}
+
 
 	public Date getShow_timings() {
 		return show_timings;
 	}
 
-	public void setShow_timings(Date show_timings2) {
-		this.show_timings = show_timings2;
+
+	public void setShow_timings(Date show_timings) {
+		this.show_timings = show_timings;
 	}
+
 
 	public Integer getAvailableSeats() {
 		return availableSeats;
 	}
 
+
 	public void setAvailableSeats(Integer availableSeats) {
 		this.availableSeats = availableSeats;
 	}
 
-	public Integer getBookedSeats() {
-		return bookedSeats;
+
+	public Integer getBlockedSeats() {
+		return blockedSeats;
 	}
 
-	public void setBookedSeats(Integer bookedSeats) {
-		this.bookedSeats = bookedSeats;
+
+	public void setBlockedSeats(Integer blockedSeats) {
+		this.blockedSeats = blockedSeats;
 	}
+
 
 	public Movie getMovie() {
 		return movie;
 	}
 
+
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
+
 
 	public Theatre getTheatre() {
 		return theatre;
 	}
 
+
 	public void setTheatre(Theatre theatre) {
 		this.theatre = theatre;
 	}
+
 
 	public List<Booking> getBookings() {
 		return bookings;
 	}
 
+
 	public void setBookings(List<Booking> bookings) {
 		this.bookings = bookings;
 	}
 
+	
+	
 
 
 

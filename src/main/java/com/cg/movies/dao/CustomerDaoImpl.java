@@ -41,7 +41,7 @@ public class CustomerDaoImpl implements CustomerDao {
 			tran.begin();
 			em.persist(customer);
 			tran.commit();
-			System.out.println("You've been Succesfully Registered");
+
 			return customer;
 		}
 		System.out.println("Phone number or the username is already Registered");
@@ -133,7 +133,6 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	@Transactional
 	public Boolean addBooking(Booking booking) throws Exception {
-		System.out.println(booking);
 		EntityManager em = entityFactory.createEntityManager();
 		EntityTransaction tran = em.getTransaction();
 		tran.begin();
@@ -150,7 +149,10 @@ public class CustomerDaoImpl implements CustomerDao {
 			List<Booking> bookingsList = customer.getBookings();
 			List<String> bookingIds = new ArrayList<String>();
 			bookingsList.forEach(booking -> {
-				bookingIds.add(booking.getBookingId() + " " + booking.getShow().getShow_timings());
+				bookingIds.add(booking.getBookingId() + " : "
+						+ sdf1.format(booking.getShow().getShow_timings()) + " : "
+								+ booking.getShow().getTheatre().getTheatreName() + " : "
+								+ booking.getShow().getMovie().getMovieName());
 			});
 			return bookingIds;
 		}

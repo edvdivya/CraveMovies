@@ -1,5 +1,6 @@
 package com.cg.movies.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cg.movies.dto.Admin;
@@ -16,4 +17,6 @@ public interface AdminService {
 	public boolean addMovieToTheatre(Integer movieId, Integer showId, Integer theatreId);
 	public Admin validateAdminLogin(String userName, String userPass) throws UserException;
 	public List<Movie> getMovies();
+	public List<String> getTheatreByMovieId(Integer movieId);
+	public Date getReleaseDate(Integer movieId);
 }
