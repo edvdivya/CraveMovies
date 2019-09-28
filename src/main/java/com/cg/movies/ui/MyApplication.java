@@ -309,7 +309,7 @@ public class MyApplication {
 							booking.setCustomer(customer);
 							Boolean bookingStatus = customerService.addBooking(booking);
 							if (bookingStatus == false) {
-								System.out.println("Booking could not be completed");
+								System.out.println("Sorry! Booking could not be completed");
 							} else
 								{System.out.println("Booking successfully done: ");
 							BigInteger bookingId = customerService.getBookingId(userId);
