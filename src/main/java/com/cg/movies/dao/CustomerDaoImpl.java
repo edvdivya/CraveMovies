@@ -67,7 +67,6 @@ public class CustomerDaoImpl implements CustomerDao {
 	@Override
 	public List<Movie> getMovies() {
 		Date today = new Date();
-
 		// TODO Auto-generated method stub
 		EntityManager em = entityFactory.createEntityManager();
 		Query query = em.createQuery("From Movie where showStatus = :first");

@@ -55,7 +55,7 @@ public class MyApplication {
 						System.out.println("3. Add Movie Show");
 						System.out.println("4. Get Theatres");
 						System.out.println("5. Get Movies");
-						System.out.println("6. Set Movie Status");
+						System.out.println("6. Remove Movie");
 						System.out.println("7. Quit");
 						System.out.println("Enter Function Number you want to perform: ");
 						int input = scanner.nextInt();
@@ -120,6 +120,7 @@ public class MyApplication {
 							scanner.nextLine();
 							System.out.println("Enter the movie release date in yyyy-mm-dd format"); // today or next
 							Date release_date = sdf.parse(scanner.nextLine());
+							System.out.println("today is: "+todays_date);
 							if (release_date.before(todays_date)) {
 								System.out.println("Not a valid Release date");
 								exit(1);
@@ -135,8 +136,8 @@ public class MyApplication {
 								movie.setGenre(genre);
 								movie.setTheatre(showcasedTheatres);
 								movie.setFlag(0);
+								movie.setShowStatus(0);
 
-								System.out.println(showcasedTheatres);
 								try {
 									movieService.save(movie);
 									System.out.println("Movie Added");
@@ -319,7 +320,7 @@ public class MyApplication {
 								booking.setCustomer(customer);
 								Boolean bookingStatus = customerService.addBooking(booking);
 								if (bookingStatus == false) {
-									System.out.println("SorryBooking could not be completed");
+									System.out.println("Sorry! Booking could not be completed");
 								} else {
 									System.out.println("Booking successfully done: ");
 									BigInteger bookingId = customerService.getBookingId(userId);

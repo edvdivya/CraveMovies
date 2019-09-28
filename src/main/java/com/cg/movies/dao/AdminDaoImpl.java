@@ -140,7 +140,8 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Movie> getMovies() {
 		// TODO Auto-generated method stub
 		EntityManager em=entityFactory.createEntityManager();
-		Query query = em.createQuery("From Movie");
+		Query query = em.createQuery("From Movie where showStatus = :first");
+		query.setParameter("first",0);
 		List<Movie> movieList=query.getResultList();
 		return movieList;
 	}
